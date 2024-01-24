@@ -6,7 +6,7 @@ This script automates the setup process for Kubernetes on a Linux system using c
 
 Make sure you have the following prerequisites installed on your system:
 
-- sudo access
+- root access
 - Ubuntu Linux distribution (the script is designed for Ubuntu)
 - Internet connection for package downloads
 
