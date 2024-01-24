@@ -12,3 +12,4 @@ Make sure you have the following prerequisites installed on your system:
 
 ## docs
 https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/install-containerd-on-ubuntu-22-04.html
+https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart
