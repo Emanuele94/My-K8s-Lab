@@ -11,5 +11,5 @@ Make sure you have the following prerequisites installed on your system:
 - Internet connection for package downloads
 
 ## docs
-https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/install-containerd-on-ubuntu-22-04.html
-https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart
+- https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/install-containerd-on-ubuntu-22-04.html
+- https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart
