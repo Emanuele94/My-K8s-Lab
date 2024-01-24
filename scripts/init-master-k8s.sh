@@ -10,7 +10,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Initialize the Kubernetes master node with kubeadm using a configuration file
-kubeadm init --config kubeadm-config.yaml
+kubeadm init --config ../conf/kubeadm-config.yaml
 
 # Set up kubeconfig for the root user to allow kubectl access
 export KUBECONFIG=/etc/kubernetes/admin.conf
