@@ -1,7 +1,32 @@
 #!/bin/bash
-# run as root
+# This script initializes a Kubernetes master node using kubeadm,
+# installs Calico for networking, and performs additional configuration.
 
-# Initialize the Kubernetes master node with kubeadm
+# Ensure the script is executed as root
+# (since some commands require elevated privileges)
+if [[ $EUID -ne 0 ]]; then
+  echo "This script must be run as root. Please use sudo."
+  exit 1
+fi
+
+# Initialize the Kubernetes master node with kubeadm using a configuration file
 kubeadm init --config kubeadm-config.yaml
 
+# Set up kubeconfig for the root user to allow kubectl access
 export KUBECONFIG=/etc/kubernetes/admin.conf
+
+# Install Calico on the cluster for networking
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/tigera-operator.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/custom-resources.yaml
+
+# Wait for 60 seconds to allow Calico pods to start
+echo "Waiting for 60 seconds..."
+sleep 60
+
+# Watch the progress of Calico pods in the calico-system namespace
+watch kubectl get pods -n calico-system
+
+# Taint nodes to remove control-plane and master labels
+# (if you want worker nodes to be scheduled on the master)
+kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+kubectl taint nodes --all node-role.kubernetes.io/master-
