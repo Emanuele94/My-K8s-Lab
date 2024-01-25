@@ -45,8 +45,42 @@ sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 
-# set ip_forward to 1
-modprobe br_netfilter
-echo 1 > /proc/sys/net/ipv4/ip_forward
+# Add overlay and br_netfilter modules to modules-load.d/k8s.conf
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+
+# Load overlay and br_netfilter modules
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
+# Configure sysctl parameters
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+
+# Apply sysctl params without reboot
+sudo sysctl --system
+
+# Verify loaded modules
+echo "Checking loaded modules..."
+if lsmod | grep -q br_netfilter && lsmod | grep -q overlay; then
+    echo "Modules br_netfilter and overlay are loaded."
+else
+    echo "Error: Modules br_netfilter and/or overlay are not loaded."
+fi
+
+# Verify sysctl config
+echo "Checking sysctl config..."
+if [ "$(sysctl -n net.bridge.bridge-nf-call-iptables)" -eq 1 ] && \
+   [ "$(sysctl -n net.bridge.bridge-nf-call-ip6tables)" -eq 1 ] && \
+   [ "$(sysctl -n net.ipv4.ip_forward)" -eq 1 ]; then
+    echo "Sysctl parameters are set correctly."
+else
+    echo "Error: Sysctl parameters are not set correctly."
+fi
 
 echo "Kubernetes setup completed!"
