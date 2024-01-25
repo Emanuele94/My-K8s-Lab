@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Ensure the script is executed as root
+# (since some commands require elevated privileges)
+if [[ $EUID -ne 0 ]]; then
+  echo "This script must be run as root. Please use sudo."
+  exit 1
+fi
+
 # Update system
 sudo apt update
 
