@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#disable swap
+swapoff -a
+
 # Ensure the script is executed as root
 # (since some commands require elevated privileges)
 if [[ $EUID -ne 0 ]]; then
@@ -27,7 +30,7 @@ sudo apt install -y containerd.io
 
 # Configure containerd for kubeadm
 sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
-
+sudo sed -i 's|sandbox_image = "registry.k8s.io/pause:3.6"|sandbox_image = "registry.k8s.io/pause:3.9"|g' /etc/containerd/config.toml
 
 # Restart containerd
 sudo systemctl restart containerd
