@@ -29,3 +29,4 @@ sleep 60
 
 # Watch the progress of Calico pods in the calico-system namespace
 watch kubectl get pods -n calico-system
+
