@@ -46,6 +46,7 @@ sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 
 # set ip_forward to 1
+modprobe br_netfilter
 echo 1 > /proc/sys/net/ipv4/ip_forward
 
 echo "Kubernetes setup completed!"
