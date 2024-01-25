@@ -11,9 +11,9 @@ Make sure you have the following prerequisites installed on your system:
 - Internet connection for package downloads
 
 ## How to use:
-execute install-requirements.sh.
-execute init-master-k8s.sh
-to move on with join worker, use the output-node file to complete the kubeadm join
+- execute install-requirements.sh.
+- execute init-master-k8s.sh
+- to move on with join worker, use the output-node file to complete the kubeadm join
 
 ## Docs used
 - https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
