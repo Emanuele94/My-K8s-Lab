@@ -15,7 +15,7 @@ kubeadm init --config ../conf/kubeadm-config.yaml
 # Set up kubeconfig for the root user to allow kubectl access
 export KUBECONFIG=/etc/kubernetes/admin.conf
 # Wait for 60 seconds to allow Calico pods to start
-echo "Waiting for 60 seconds..."
+echo "Waiting for 180 seconds..."
 sleep 180
 
 # Install Calico on the cluster for networking
