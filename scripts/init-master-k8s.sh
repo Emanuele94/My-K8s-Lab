@@ -10,11 +10,12 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Initialize the Kubernetes master node with kubeadm using a configuration file
-kubeadm init --config ../conf/kubeadm-config.yaml
+kubeadm init --pod-network-cidr=192.168.0.0/16
 
 # Set up kubeconfig for the root user to allow kubectl access
 export KUBECONFIG=/etc/kubernetes/admin.conf
-# Wait for 60 seconds to allow Calico pods to start
+
+# Wait for 180 seconds to allow K8s pods to start
 echo "Waiting for 180 seconds..."
 sleep 180
 
@@ -28,8 +29,3 @@ sleep 60
 
 # Watch the progress of Calico pods in the calico-system namespace
 watch kubectl get pods -n calico-system
-
-# Taint nodes to remove control-plane and master labels
-# (if you want worker nodes to be scheduled on the master)
-kubectl taint nodes --all node-role.kubernetes.io/control-plane-
-kubectl taint nodes --all node-role.kubernetes.io/master-
