@@ -1,7 +1,9 @@
 #!/bin/bash
+set -e
 
 #disable swap
 swapoff -a
+sudo sed -i '/\/swap.img/s/^/#/' /etc/fstab
 
 # Ensure the script is executed as root
 # (since some commands require elevated privileges)
@@ -29,6 +31,7 @@ sudo apt update
 sudo apt install -y containerd.io
 
 # Configure containerd for kubeadm
+containerd config default | sudo tee /etc/containerd/config.toml
 sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
 sudo sed -i 's|sandbox_image = "registry.k8s.io/pause:3.6"|sandbox_image = "registry.k8s.io/pause:3.9"|g' /etc/containerd/config.toml
 
@@ -68,6 +71,7 @@ if lsmod | grep -q br_netfilter && lsmod | grep -q overlay; then
     echo "Modules br_netfilter and overlay are loaded."
 else
     echo "Error: Modules br_netfilter and/or overlay are not loaded."
+    exit 1  # Termina lo script con un codice di uscita non zero
 fi
 
 # Verify sysctl config
@@ -78,6 +82,6 @@ if [ "$(sysctl -n net.bridge.bridge-nf-call-iptables)" -eq 1 ] && \
     echo "Sysctl parameters are set correctly."
 else
     echo "Error: Sysctl parameters are not set correctly."
+    exit 1  # Termina lo script con un codice di uscita non zero
 fi
-
 echo "Kubernetes setup completed!"
