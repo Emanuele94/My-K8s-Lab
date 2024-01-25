@@ -9,7 +9,7 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-# Initialize the Kubernetes master node with kubeadm using a configuration file
+# Initialize the Kubernetes master node with pod network
 kubeadm init --pod-network-cidr=192.168.0.0/16 > output-node
 
 # Set up kubeconfig for the root user to allow kubectl access
