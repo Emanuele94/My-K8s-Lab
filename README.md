@@ -11,7 +11,8 @@ Make sure you have the following prerequisites installed on your system:
 - Internet connection for package downloads
 
 ## How to use:
-execute install-requirements.sh, the script will execute init-master as last command.
+execute install-requirements.sh.
+execute init-master-k8s.sh
 to move on with join worker, use the output-node file to complete the kubeadm join
 
 ## Docs used
@@ -19,4 +20,3 @@ to move on with join worker, use the output-node file to complete the kubeadm jo
 - https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart
 - https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/install-containerd-on-ubuntu-22-04.html
 - https://github.com/kubernetes/kubernetes/issues/112622 (issue for ubuntu 22, updated and set SystemdCgroup = true & sandbox_image = "registry.k8s.io/pause:3.9")
-- 
