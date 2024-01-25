@@ -14,8 +14,9 @@ Make sure you have the following prerequisites installed on your system:
 execute install-requirements.sh, the script will execute init-master as last command.
 to move on with join worker, use the output-node file to complete the kubeadm join
 
-## docs
-- https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/install-containerd-on-ubuntu-22-04.html
+## Docs used
+- https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 - https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart
+- https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/install-containerd-on-ubuntu-22-04.html
 - https://github.com/kubernetes/kubernetes/issues/112622 (issue for ubuntu 22, updated and set SystemdCgroup = true & sandbox_image = "registry.k8s.io/pause:3.9")
 - 
