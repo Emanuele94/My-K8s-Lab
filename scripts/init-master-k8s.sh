@@ -10,7 +10,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Initialize the Kubernetes master node with kubeadm using a configuration file
-kubeadm init --pod-network-cidr=192.168.0.0/16
+kubeadm init --pod-network-cidr=192.168.0.0/16 > output-init
 
 # Set up kubeconfig for the root user to allow kubectl access
 export KUBECONFIG=/etc/kubernetes/admin.conf
@@ -28,5 +28,4 @@ echo "Waiting for 60 seconds..."
 sleep 60
 
 # Watch the progress of Calico pods in the calico-system namespace
-watch kubectl get pods -n calico-system
-
+kubectl get pods -n calico-system
