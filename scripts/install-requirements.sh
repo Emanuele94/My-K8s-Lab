@@ -26,14 +26,8 @@ sudo apt update
 sudo apt install -y containerd.io
 
 # Configure containerd for kubeadm
-cat <<EOF | sudo tee -a /etc/containerd/config.toml
-[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
-  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
-    SystemdCgroup = true
-EOF
+sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
 
-# Uncomment the disabled_plugins line
-sudo sed -i 's/^disabled_plugins \=/\#disabled_plugins \=/g' /etc/containerd/config.toml
 
 # Restart containerd
 sudo systemctl restart containerd
