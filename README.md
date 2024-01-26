@@ -14,6 +14,7 @@ Make sure you have the following prerequisites installed on your system:
 # On Control-plane node:
 - execute install-requirements.sh.
 - execute init-master-k8s.sh
+  
 # On Worker node:
 - execute isntall-requirements.sh
 - use the output-node file (in control-plane node) to complete the kubeadm join using the string present at the end of the file.
