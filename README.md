@@ -19,4 +19,4 @@ Make sure you have the following prerequisites installed on your system:
 - https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 - https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart
 - https://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/install-containerd-on-ubuntu-22-04.html
-- https://github.com/kubernetes/kubernetes/issues/112622 (issue for ubuntu 22, updated and set SystemdCgroup = true & sandbox_image = "registry.k8s.io/pause:3.9")
+- [https://github.com/kubernetes/kubernetes/issues/112622](https://github.com/kubernetes/kubernetes/issues/110177) (issue for ubuntu 22, updated and set SystemdCgroup = true & sandbox_image = "registry.k8s.io/pause:3.9")
