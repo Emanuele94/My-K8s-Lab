@@ -13,7 +13,7 @@ Make sure you have the following prerequisites installed on your system:
 ## How to use:
 - execute install-requirements.sh.
 - execute init-master-k8s.sh
-- to move on with join worker, use the output-node file to complete the kubeadm join
+- to move on with join worker, use the output-node file to complete the kubeadm join on a separate node
 
 ## Docs used
 - https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
