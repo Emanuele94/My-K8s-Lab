@@ -21,6 +21,7 @@ sleep 180
 
 # Install Calico on the cluster for networking
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/tigera-operator.yaml
+# CUSTOM RESOURCES HAS A PREDEFINED SUBNET 192.168.0.0/16 IF YOU ARE USING A DIFFERENT ONE ON YOUR "KUBEADM INIT" WGET THE FILE AND RUN CREATE LOCALY
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/custom-resources.yaml
 
 # Wait for 60 seconds to allow Calico pods to start
