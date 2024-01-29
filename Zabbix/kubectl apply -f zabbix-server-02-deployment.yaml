@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zabbix-server-02
+  namespace: zabbix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zabbix-server-02
+  template:
+    metadata:
+      labels:
+        app: zabbix-server-02
+      annotations:
+          "cni.projectcalico.org/ipAddrs": "[\"192.168.0.22\"]"
+    spec:
+      containers:
+      - name: zabbix-server-02
+        image: zabbix/zabbix-server-pgsql:ubuntu-6.0-latest
+        ports:
+        - containerPort: 10051
+        env:
+        - name: DB_SERVER_HOST
+          value: "192.168.0.25"
+        - name: POSTGRES_USER
+          value: "zabbix"
+        - name: POSTGRES_PASSWORD
+          value: "Password1!"
+        - name: POSTGRES_DB
+          value: "zabbix"
+        - name: ZBX_HANODENAME
+          value: "zabbixserver02"
+        - name: ZBX_NODEADDRESS
+          value: "192.168.0.22"
+        - name: ZBX_TIMEOUT
+          value: "30"
+        - name: ZBX_LOGSLOWQUERIES
+          value: "3000"
+        - name: ZBX_CACHESIZE
+          value: "256M"
+        - name: ZBX_TRENDCACHESIZE
+          value: "64M"
+        - name: ZBX_VALUECACHESIZE
+          value: "256M"
+        - name: ZBX_ALLOWUNSUPPORTEDDBVERSIONS
+          value: "1"
+        - name: ZBX_HISTORYCACHESIZE
+          value: "32M"
+        - name: ZBX_STARTREPORTWRITERS
+          value: "1"
+        - name: ZBX_STARTPOLLERSUNREACHABLE
+          value: "50"
+        - name: ZBX_WEBSERVICEURL
+          value: "http://192.168.0.20:10053/report"
+        - name: TZ
+          value: "Europe/Rome"
+        volumeMounts:
+        - name: zabbix-alert-script
+          mountPath: /usr/lib/zabbix/alertscripts
+        - name: zabbix-enc
+          mountPath: /var/lib/zabbix/enc
+        - name: zabbix-ssh-keys
+          mountPath: /var/lib/zabbix/ssh_keys
+        - name: zabbix-ssl-certs
+          mountPath: /var/lib/zabbix/ssl/certs
+        - name: zabbix-ssl-keys
+          mountPath: /var/lib/zabbix/ssl/keys
+        - name: zabbix-ssl-ca
+          mountPath: /var/lib/zabbix/ssl/ssl_ca
+        - name: zabbix-snmp-traps
+          mountPath: /var/lib/zabbix/snmptraps
+        - name: zabbix-mibs
+          mountPath: /var/lib/zabbix/mibs
+        - name: zabbix-export
+          mountPath: /var/lib/zabbix/export
+      volumes:
+      - name: zabbix-alert-script
+        emptyDir: {}
+      - name: zabbix-enc
+        emptyDir: {}
+      - name: zabbix-ssh-keys
+        emptyDir: {}
+      - name: zabbix-ssl-certs
+        emptyDir: {}
+      - name: zabbix-ssl-keys
+        emptyDir: {}
+      - name: zabbix-ssl-ca
+        emptyDir: {}
+      - name: zabbix-snmp-traps
+        emptyDir: {}
+      - name: zabbix-mibs
+        emptyDir: {}
+      - name: zabbix-export
+        emptyDir: {}
