@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-zbxdb
+  namespace: zabbix
+spec:
+  serviceName: "postgres-zbxdb"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-zbxdb
+  template:
+    metadata:
+      labels:
+        app: postgres-zbxdb
+      annotations:
+        "cni.projectcalico.org/ipAddrs": "[\"192.168.0.25\"]"
+    spec:
+      containers:
+      - name: postgres-zbxdb
+        image: postgres:16
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_PASSWORD
+          value: "Password1!"
+        - name: POSTGRES_USER
+          value: "zabbix"
+        - name: POSTGRES_DB
+          value: "zabbix"
+        - name: POSTGRES_HOST_AUTH_METHOD
+          value: "trust"
+        volumeMounts:
+        - name: postgres-zbxdb-data
+          mountPath: "/var/lib/postgresql/data"
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-zbxdb-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 20Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-zbxdb
+  namespace: zabbix
+spec:
+  selector:
+    app: postgres-zbxdb
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
