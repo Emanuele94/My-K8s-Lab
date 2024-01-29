@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zabbix-frontend
+  namespace: zabbix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zabbix-frontend
+  template:
+    metadata:
+      labels:
+        app: zabbix-frontend
+      annotations:
+        "cni.projectcalico.org/ipAddrs": "[\"192.168.0.20\"]"
+    spec:
+      containers:
+      - name: zabbix-web
+        image: zabbix/zabbix-web-nginx-pgsql:6.0-ubuntu-latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: POSTGRES_USER
+          value: "zabbix"
+        - name: POSTGRES_PASSWORD
+          value: "Password1!"
+        - name: POSTGRES_DB
+          value: "zabbix"
+        - name: DB_SERVER_HOST
+          value: "192.168.0.25"
+        - name: PHP_TZ
+          value: "Europe/Rome"
+        volumeMounts:
+        - name: ssl-nginx
+          mountPath: /etc/ssl/nginx
+        - name: zabbix-web-certs
+          mountPath: /etc/zabbix/web/certs
+      volumes:
+      - name: ssl-nginx
+        emptyDir: {}
+      - name: zabbix-web-certs
+        emptyDir: {}
