@@ -20,7 +20,7 @@ spec:
         - containerPort: 10051
         env:
         - name: DB_SERVER_HOST
-          value: "192.168.0.25"
+          value: "postgres-zbxdb"
         - name: POSTGRES_USER
           value: "zabbix"
         - name: POSTGRES_PASSWORD
