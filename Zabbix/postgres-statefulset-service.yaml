@@ -13,8 +13,6 @@ spec:
     metadata:
       labels:
         app: postgres-zbxdb
-      annotations:
-        "cni.projectcalico.org/ipAddrs": "[\"192.168.0.25\"]"
     spec:
       containers:
       - name: postgres-zbxdb
