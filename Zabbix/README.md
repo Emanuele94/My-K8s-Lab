@@ -1,5 +1,3 @@
-Sure, here's a sample README.md documentation for your Kubernetes configuration:
-
 # Zabbix Kubernetes Deployment
 
 This repository contains Kubernetes manifests for deploying Zabbix monitoring components using Kubernetes. The deployment includes a PostgreSQL database, Zabbix server instances, and a Zabbix web frontend.
