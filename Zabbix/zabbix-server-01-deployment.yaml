@@ -50,7 +50,7 @@ spec:
         - name: ZBX_STARTPOLLERSUNREACHABLE
           value: "50"
         - name: ZBX_WEBSERVICEURL
-          value: "http://192.168.0.20:10053/report"
+          value: "http://zabbix-frontend:10053/report"
         - name: TZ
           value: "Europe/Rome"
         volumeMounts:
