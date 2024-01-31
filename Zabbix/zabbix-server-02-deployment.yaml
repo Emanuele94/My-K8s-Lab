@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zabbix-server-02
+  name: zbx-sv-02
   namespace: zabbix
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: zabbix-server-02
+      app: zbx-sv-02
   template:
     metadata:
       labels:
-        app: zabbix-server-02
+        app: zbx-sv-02
       annotations:
           "cni.projectcalico.org/ipAddrs": "[\"192.168.0.22\"]"
     spec:
       containers:
-      - name: zabbix-server-02
+      - name: zbx-sv-02
         image: zabbix/zabbix-server-pgsql:ubuntu-6.0-latest
         ports:
         - containerPort: 10051
@@ -30,9 +30,9 @@ spec:
         - name: POSTGRES_DB
           value: "zabbix"
         - name: ZBX_HANODENAME
-          value: "zabbixserver02"
+          value: "zbx-sv-02"
         - name: ZBX_NODEADDRESS
-          value: "192.168.0.22"
+          value: "zbx-sv-02"
         - name: ZBX_TIMEOUT
           value: "30"
         - name: ZBX_LOGSLOWQUERIES
