@@ -9,24 +9,36 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-# Initialize the Kubernetes master node with pod network
-kubeadm init --pod-network-cidr=192.168.0.0/16 > output-node
+# Request user input for pod-network-cidr
+read -p "Enter the desired pod-network-cidr (e.g., 10.154.0.0/16): " pod_network_cidr
+
+# Initialize the Kubernetes master node with kubeadm using the provided pod-network-cidr
+kubeadm init --pod-network-cidr="$pod_network_cidr" > output-node
 
 # Set up kubeconfig for the root user to allow kubectl access
 export KUBECONFIG=/etc/kubernetes/admin.conf
 
-# Wait for 180 seconds to allow K8s pods to start
-echo "Waiting for 180 seconds..."
-sleep 180
-
-# Install Calico on the cluster for networking
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/tigera-operator.yaml
-# CUSTOM RESOURCES HAS A PREDEFINED SUBNET 192.168.0.0/16 IF YOU ARE USING A DIFFERENT ONE ON YOUR "KUBEADM INIT" WGET THE FILE AND RUN CREATE LOCALY
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/custom-resources.yaml
-
-# Wait for 60 seconds to allow Calico pods to start
+# Wait for 60 seconds to allow K8s pods to start
 echo "Waiting for 60 seconds..."
 sleep 60
 
-# Watch the progress of Calico pods in the calico-system namespace
-kubectl get pods -n calico-system
+
+# Install Calico on the cluster for networking
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/tigera-operator.yaml
+
+# Download Calico custom resources YAML file
+calico_yaml_url="https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/custom-resources.yaml"
+calico_yaml_local="custom-resources.yaml"
+
+read -p "Enter the desired CIDR (e.g., 192.168.0.0/16): " cidr_input
+
+# Replace the placeholder CIDR in the downloaded file
+curl -o "$calico_yaml_local" "$calico_yaml_url"
+sed -i "s|cidr: 192.168.0.0/16|cidr: $cidr_input|g" "$calico_yaml_local"
+
+# Apply Calico custom resources
+kubectl create -f "$calico_yaml_local"
+
+echo "Calico custom resources applied successfully."
+sleep 5
+echo "K8s + CNI configured"
