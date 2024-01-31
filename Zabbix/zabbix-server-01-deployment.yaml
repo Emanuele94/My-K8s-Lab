@@ -91,3 +91,16 @@ spec:
         emptyDir: {}
       - name: zabbix-export
         emptyDir: {}
+---        
+apiVersion: v1
+kind: Service
+metadata:
+  name: zbx-sv-01
+  namespace: zabbix
+spec:
+  selector:
+    app: zbx-sv-01
+  ports:
+    - protocol: TCP
+      port: 10051
+      targetPort: 10051
