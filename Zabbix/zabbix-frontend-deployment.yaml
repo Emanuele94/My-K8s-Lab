@@ -12,8 +12,6 @@ spec:
     metadata:
       labels:
         app: zabbix-frontend
-      annotations:
-        "cni.projectcalico.org/ipAddrs": "[\"192.168.0.20\"]"
     spec:
       containers:
       - name: zabbix-web
@@ -28,7 +26,7 @@ spec:
         - name: POSTGRES_DB
           value: "zabbix"
         - name: DB_SERVER_HOST
-          value: "192.168.0.25"
+          value: "postgres-zbxdb"
         - name: PHP_TZ
           value: "Europe/Rome"
         volumeMounts:
